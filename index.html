@@ -3,27 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Valentine?</title>
+    <title>❤️ Ultimate Valentine Experience | Interactive Love Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="style.css">
-    <!-- FontAwesome for the Heart Icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <div class="heart-container">
-            <i class="fas fa-heart fa-5x heart-icon"></i>
-        </div>
-        
-        <h1 id="main-message">Will you be my Valentine?</h1>
-       
-
-        <div class="buttons">
-            <button id="yes-btn">YES</button>
-            <button id="no-btn">NO</button>
-        </div>
+    <!-- Background Particles -->
+    <div id="particles-js"></div>
+    
+    <!-- Audio Player -->
+    <div class="audio-player">
+        <button id="music-toggle">
+            <i class="fas fa-music"></i>
+            <span>Romantic Mode</span>
+        </button>
+        <audio id="background-music" loop>
+            <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-sunset-690.mp3" type="audio/mpeg">
+        </audio>
     </div>
 
+    <!-- Theme Toggle -->
+    <div class="theme-switch">
+        <button id="theme-toggle">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header with Logo -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>LoveLab</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="love-meter">0%</div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Animated Title -->
+            <div class="title-section">
+                <h1 class="animate__animated animate__pulse animate__infinite">
+                    <span class="title-text">Will You Be My</span>
+                    <span class="valentine-text">Valentine?</span>
+                </h1>
+                <div class="subtitle">
+                    <p>An Interactive Digital Proposal</p>
+                </div>
+            </div>
+
+            <!-- Interactive Heart Section -->
+            <div class="heart-section">
+                <!-- 3D Heart Container -->
+                <div class="heart-3d" id="heart-3d">
+                    <div class="heart-layer layer-1"></div>
+                    <div class="heart-layer layer-2"></div>
+                    <div class="heart-layer layer-3"></div>
+                    <div class="heart-center">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                </div>
+                
+                <!-- Heart Controls -->
+                <div class="heart-controls">
+                    <button class="control-btn" id="heart-glow">
+                        <i class="fas fa-magic"></i> Glow
+                    </button>
+                    <button class="control-btn" id="heart-spin">
+                        <i class="fas fa-sync"></i> Spin
+                    </button>
+                    <button class="control-btn" id="heart-pulse">
+                        <i class="fas fa-heartbeat"></i> Pulse
+                    </button>
+                </div>
+            </div>
+
+            <!-- Decision Buttons with Effects -->
+            <div class="decision-section">
+                <div class="buttons-container">
+                    <!-- YES Button with Confetti -->
+                    <div class="button-wrapper yes-wrapper">
+                        <button class="decision-btn yes-btn" id="yes-btn">
+                            <div class="btn-content">
+                                <i class="fas fa-check-circle"></i>
+                                <span class="btn-text">YES! Forever 💖</span>
+                            </div>
+                            <div class="btn-sparkles"></div>
+                        </button>
+                        <div class="button-effect" id="yes-effect"></div>
+                    </div>
+
+                    <!-- NO Button with Escape -->
+                    <div class="button-wrapper no-wrapper">
+                        <button class="decision-btn no-btn" id="no-btn">
+                            <div class="btn-content">
+                                <i class="fas fa-times-circle"></i>
+                                <span class="btn-text" id="no-text">Maybe... 😅</span>
+                            </div>
+                        </button>
+                        <div class="escape-zones">
+                            <div class="zone zone-1"></div>
+                            <div class="zone zone-2"></div>
+                            <div class="zone zone-3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Button Stats -->
+                <div class="button-stats">
+                    <div class="stat">
+                        <i class="fas fa-crosshairs"></i>
+                        <span>Escape Attempts: <span id="escape-count">0</span></span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-bolt"></i>
+                        <span>Reaction Speed: <span id="reaction-speed">0ms</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Love Metrics Dashboard -->
+            <div class="dashboard">
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h3>Love Counter</h3>
+                        <div class="metric-value" id="love-counter">0</div>
+                        <div class="metric-label">Moments of Love</div>
+                    </div>
+                    <div class="metric-graph">
+                        <canvas id="love-graph"></canvas>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h3>Time Together</h3>
+                        <div class="metric-timer" id="love-timer">00:00:00</div>
+                        <div class="metric-label">Since You Opened This</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h3>Romance Level</h3>
+                        <div class="flame-container">
+                            <div class="flame" id="flame-1"></div>
+                            <div class="flame" id="flame-2"></div>
+                            <div class="flame" id="flame-3"></div>
+                        </div>
+                        <div class="metric-label">Passion Meter</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Message Section -->
+            <div class="message-section">
+                <div class="message-input">
+                    <input type="text" id="love-message" placeholder="Type your love message here...">
+                    <button id="send-message">
+                        <i class="fas fa-paper-plane"></i> Send
+                    </button>
+                </div>
+                <div class="messages-container" id="messages-container">
+                    <!-- Messages will appear here -->
+                </div>
+            </div>
+
+            <!-- Celebration Modal (Hidden by default) -->
+            <div class="celebration-modal" id="celebration-modal">
+                <div class="modal-content">
+                    <div class="confetti-container"></div>
+                    <h2>🎉 CELEBRATION TIME! 🎉</h2>
+                    <div class="celebration-heart">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <p class="celebration-text">You've made the best choice! Let the celebration begin!</p>
+                    <div class="celebration-stats">
+                        <div class="celebration-stat">
+                            <i class="fas fa-gift"></i>
+                            <span>Unlocked: <strong>Infinite Love</strong></span>
+                        </div>
+                        <div class="celebration-stat">
+                            <i class="fas fa-trophy"></i>
+                            <span>Achievement: <strong>Soulmate Found</strong></span>
+                        </div>
+                    </div>
+                    <button class="share-btn" id="share-btn">
+                        <i class="fas fa-share-alt"></i> Share This Moment
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="tech-stack">
+                    <span>Powered by:</span>
+                    <div class="tech-icons">
+                        <i class="fab fa-html5" title="HTML5"></i>
+                        <i class="fab fa-css3-alt" title="CSS3"></i>
+                        <i class="fab fa-js" title="JavaScript"></i>
+                        <i class="fas fa-heart" title="Love"></i>
+                    </div>
+                </div>
+                <div class="footer-text">
+                    Made with <i class="fas fa-heart heart-beat"></i> for the one who makes every moment special
+                </div>
+                <div class="footer-actions">
+                    <button class="reset-btn" id="reset-btn">
+                        <i class="fas fa-redo"></i> Restart Experience
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Main Script -->
     <script src="script.js"></script>
 </body>
 </html>
-
