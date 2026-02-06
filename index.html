@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>❤️Doadwi</title>
+    <title>❤️ For Doadwi | Ultimate Valentine Experience</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
@@ -13,7 +13,15 @@
     <!-- Background Particles -->
     <div id="particles-js"></div>
     
-    
+    <!-- Audio Player -->
+    <div class="audio-player">
+        <button id="music-toggle">
+            <i class="fas fa-music"></i>
+            <span>Romantic Music</span>
+        </button>
+        <audio id="background-music" loop>
+            <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-sunset-690.mp3" type="audio/mpeg">
+        </audio>
     </div>
 
     <!-- Theme Toggle -->
@@ -30,7 +38,7 @@
         <header class="header">
             <div class="logo">
                 <i class="fas fa-heartbeat"></i>
-                <span>LoveLab</span>
+                <span>Doadwi's LoveLab</span>
             </div>
             <div class="progress-bar">
                 <div class="progress-fill" id="love-meter">0%</div>
@@ -42,11 +50,11 @@
             <!-- Animated Title -->
             <div class="title-section">
                 <h1 class="animate__animated animate__pulse animate__infinite">
-                    <span class="title-text">Will You Be My</span>
+                    <span class="title-text">Doadwi, Will You Be My</span>
                     <span class="valentine-text">Valentine?</span>
                 </h1>
                 <div class="subtitle">
-                    <p>An Interactive Digital Proposal</p>
+                    <p>An Interactive Digital Proposal Made Just For You</p>
                 </div>
             </div>
 
@@ -129,7 +137,7 @@
                     <div class="metric-info">
                         <h3>Love Counter</h3>
                         <div class="metric-value" id="love-counter">0</div>
-                        <div class="metric-label">Moments of Love</div>
+                        <div class="metric-label">Moments for Doadwi</div>
                     </div>
                     <div class="metric-graph">
                         <canvas id="love-graph"></canvas>
@@ -143,7 +151,7 @@
                     <div class="metric-info">
                         <h3>Time Together</h3>
                         <div class="metric-timer" id="love-timer">00:00:00</div>
-                        <div class="metric-label">Since You Opened This</div>
+                        <div class="metric-label">Since Doadwi Opened This</div>
                     </div>
                 </div>
 
@@ -158,7 +166,7 @@
                             <div class="flame" id="flame-2"></div>
                             <div class="flame" id="flame-3"></div>
                         </div>
-                        <div class="metric-label">Passion Meter</div>
+                        <div class="metric-label">Passion for Doadwi</div>
                     </div>
                 </div>
             </div>
@@ -166,7 +174,7 @@
             <!-- Interactive Message Section -->
             <div class="message-section">
                 <div class="message-input">
-                    <input type="text" id="love-message" placeholder="Type your love message here...">
+                    <input type="text" id="love-message" placeholder="Type your love message for Doadwi here...">
                     <button id="send-message">
                         <i class="fas fa-paper-plane"></i> Send
                     </button>
@@ -176,146 +184,146 @@
                 </div>
             </div>
 
-         <!-- ULTIMATE CELEBRATION SYSTEM -->
-<div class="celebration-system" id="celebration-system">
-    <!-- Background Canvas for Effects -->
-    <canvas id="celebration-canvas"></canvas>
-    
-    <!-- Multiple Celebration Layers -->
-    <div class="celebration-layer layer-1"></div>
-    <div class="celebration-layer layer-2"></div>
-    <div class="celebration-layer layer-3"></div>
-    
-    <!-- Main Celebration Container -->
-    <div class="celebration-container">
-        <!-- Stage 1: Initial Burst -->
-        <div class="celebration-stage stage-1" id="stage-1">
-            <div class="burst-circle">
-                <div class="ring ring-1"></div>
-                <div class="ring ring-2"></div>
-                <div class="ring ring-3"></div>
-                <div class="burst-center">
-                    <i class="fas fa-heart fa-beat"></i>
-                </div>
-            </div>
-            <h2 class="celebration-title">YOU SAID YES!</h2>
-            <p class="celebration-subtitle">Love Level: MAXIMUM</p>
-        </div>
-        
-        <!-- Stage 2: Fireworks Show -->
-        <div class="celebration-stage stage-2" id="stage-2" style="display: none;">
-            <div class="fireworks-display">
-                <div class="firework" id="fw-1"></div>
-                <div class="firework" id="fw-2"></div>
-                <div class="firework" id="fw-3"></div>
-                <div class="firework" id="fw-4"></div>
-            </div>
-            <h2 class="celebration-title">FIREWORKS OF JOY!</h2>
-            <div class="firework-controls">
-                <button class="fw-btn" data-type="heart">❤️ Hearts</button>
-                <button class="fw-btn" data-type="star">⭐ Stars</button>
-                <button class="fw-btn" data-type="spiral">🌀 Spirals</button>
-            </div>
-        </div>
-        
-        <!-- Stage 3: Love Tunnel -->
-        <div class="celebration-stage stage-3" id="stage-3" style="display: none;">
-            <div class="tunnel-container">
-                <div class="tunnel">
-                    <div class="tunnel-wall left"></div>
-                    <div class="tunnel-wall right"></div>
-                    <div class="tunnel-floor"></div>
-                    <div class="tunnel-lights"></div>
-                </div>
-                <div class="tunnel-vehicle">
-                    <i class="fas fa-heart"></i>
-                </div>
-            </div>
-            <h2 class="celebration-title">LOVE TUNNEL ACTIVATED!</h2>
-        </div>
-        
-        <!-- Stage 4: Final Display -->
-        <div class="celebration-stage stage-4" id="stage-4" style="display: none;">
-            <div class="final-display">
-                <div class="trophy">
-                    <i class="fas fa-trophy"></i>
-                </div>
-                <div class="achievement-badges">
-                    <div class="badge" data-badge="soulmate">
-                        <i class="fas fa-heart-circle-check"></i>
-                        <span>Soulmate Found</span>
+            <!-- ULTIMATE CELEBRATION SYSTEM -->
+            <div class="celebration-system" id="celebration-system">
+                <!-- Background Canvas for Effects -->
+                <canvas id="celebration-canvas"></canvas>
+                
+                <!-- Multiple Celebration Layers -->
+                <div class="celebration-layer layer-1"></div>
+                <div class="celebration-layer layer-2"></div>
+                <div class="celebration-layer layer-3"></div>
+                
+                <!-- Main Celebration Container -->
+                <div class="celebration-container">
+                    <!-- Stage 1: Initial Burst -->
+                    <div class="celebration-stage stage-1" id="stage-1">
+                        <div class="burst-circle">
+                            <div class="ring ring-1"></div>
+                            <div class="ring ring-2"></div>
+                            <div class="ring ring-3"></div>
+                            <div class="burst-center">
+                                <i class="fas fa-heart fa-beat"></i>
+                            </div>
+                        </div>
+                        <h2 class="celebration-title">DOADWI SAID YES!</h2>
+                        <p class="celebration-subtitle">Love Level: MAXIMUM</p>
                     </div>
-                    <div class="badge" data-badge="forever">
-                        <i class="fas fa-infinity"></i>
-                        <span>Forever Love</span>
+                    
+                    <!-- Stage 2: Fireworks Show -->
+                    <div class="celebration-stage stage-2" id="stage-2" style="display: none;">
+                        <div class="fireworks-display">
+                            <div class="firework" id="fw-1"></div>
+                            <div class="firework" id="fw-2"></div>
+                            <div class="firework" id="fw-3"></div>
+                            <div class="firework" id="fw-4"></div>
+                        </div>
+                        <h2 class="celebration-title">FIREWORKS FOR DOADWI!</h2>
+                        <div class="firework-controls">
+                            <button class="fw-btn" data-type="heart">❤️ Hearts</button>
+                            <button class="fw-btn" data-type="star">⭐ Stars</button>
+                            <button class="fw-btn" data-type="spiral">🌀 Spirals</button>
+                        </div>
                     </div>
-                    <div class="badge" data-badge="perfect">
-                        <i class="fas fa-gem"></i>
-                        <span>Perfect Match</span>
+                    
+                    <!-- Stage 3: Love Tunnel -->
+                    <div class="celebration-stage stage-3" id="stage-3" style="display: none;">
+                        <div class="tunnel-container">
+                            <div class="tunnel">
+                                <div class="tunnel-wall left"></div>
+                                <div class="tunnel-wall right"></div>
+                                <div class="tunnel-floor"></div>
+                                <div class="tunnel-lights"></div>
+                            </div>
+                            <div class="tunnel-vehicle">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                        </div>
+                        <h2 class="celebration-title">LOVE TUNNEL FOR DOADWI!</h2>
                     </div>
-                </div>
-                <div class="love-stats">
-                    <div class="stat">
-                        <div class="stat-value" id="final-love">100%</div>
-                        <div class="stat-label">Love Compatibility</div>
+                    
+                    <!-- Stage 4: Final Display -->
+                    <div class="celebration-stage stage-4" id="stage-4" style="display: none;">
+                        <div class="final-display">
+                            <div class="trophy">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="achievement-badges">
+                                <div class="badge" data-badge="soulmate">
+                                    <i class="fas fa-heart-circle-check"></i>
+                                    <span>Soulmate Found: Doadwi</span>
+                                </div>
+                                <div class="badge" data-badge="forever">
+                                    <i class="fas fa-infinity"></i>
+                                    <span>Forever Love</span>
+                                </div>
+                                <div class="badge" data-badge="perfect">
+                                    <i class="fas fa-gem"></i>
+                                    <span>Perfect Match</span>
+                                </div>
+                            </div>
+                            <div class="love-stats">
+                                <div class="stat">
+                                    <div class="stat-value" id="final-love">100%</div>
+                                    <div class="stat-label">Love Compatibility</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value" id="final-time">∞</div>
+                                    <div class="stat-label">Time With Doadwi</div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="celebration-title">CELEBRATION COMPLETE!</h2>
+                        <p class="celebration-message">You've unlocked eternal love with Doadwi! 💕</p>
                     </div>
-                    <div class="stat">
-                        <div class="stat-value" id="final-time">∞</div>
-                        <div class="stat-label">Time Together</div>
+                    
+                    <!-- Celebration Controls -->
+                    <div class="celebration-controls">
+                        <button class="celebration-btn" id="prev-stage">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <div class="stage-indicator">
+                            <span class="stage-dot active" data-stage="1"></span>
+                            <span class="stage-dot" data-stage="2"></span>
+                            <span class="stage-dot" data-stage="3"></span>
+                            <span class="stage-dot" data-stage="4"></span>
+                        </div>
+                        <button class="celebration-btn" id="next-stage">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Special Effects Toggle -->
+                    <div class="effects-controls">
+                        <button class="effect-btn" id="toggle-confetti">
+                            <i class="fas fa-birthday-cake"></i> Confetti Storm
+                        </button>
+                        <button class="effect-btn" id="toggle-music">
+                            <i class="fas fa-music"></i> Party Music
+                        </button>
+                        <button class="effect-btn" id="toggle-lasers">
+                            <i class="fas fa-bolt"></i> Laser Show
+                        </button>
+                    </div>
+                    
+                    <!-- Share & Close -->
+                    <div class="celebration-actions">
+                        <button class="action-btn share-action" id="celebration-share">
+                            <i class="fas fa-share-alt"></i> Share Victory
+                        </button>
+                        <button class="action-btn close-action" id="close-celebration">
+                            <i class="fas fa-times"></i> Return to Love
+                        </button>
                     </div>
                 </div>
             </div>
-            <h2 class="celebration-title">CELEBRATION COMPLETE!</h2>
-            <p class="celebration-message">You've unlocked eternal love! 💕</p>
-        </div>
-        
-        <!-- Celebration Controls -->
-        <div class="celebration-controls">
-            <button class="celebration-btn" id="prev-stage">
-                <i class="fas fa-arrow-left"></i> Previous
-            </button>
-            <div class="stage-indicator">
-                <span class="stage-dot active" data-stage="1"></span>
-                <span class="stage-dot" data-stage="2"></span>
-                <span class="stage-dot" data-stage="3"></span>
-                <span class="stage-dot" data-stage="4"></span>
-            </div>
-            <button class="celebration-btn" id="next-stage">
-                Next <i class="fas fa-arrow-right"></i>
-            </button>
-        </div>
-        
-        <!-- Special Effects Toggle -->
-        <div class="effects-controls">
-            <button class="effect-btn" id="toggle-confetti">
-                <i class="fas fa-birthday-cake"></i> Confetti Storm
-            </button>
-            <button class="effect-btn" id="toggle-music">
-                <i class="fas fa-music"></i> Party Music
-            </button>
-            <button class="effect-btn" id="toggle-lasers">
-                <i class="fas fa-bolt"></i> Laser Show
-            </button>
-        </div>
-        
-        <!-- Share & Close -->
-        <div class="celebration-actions">
-            <button class="action-btn share-action" id="celebration-share">
-                <i class="fas fa-share-alt"></i> Share Victory
-            </button>
-            <button class="action-btn close-action" id="close-celebration">
-                <i class="fas fa-times"></i> Return to Love
-            </button>
-        </div>
-    </div>
-</div>
         </main>
 
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-content">
                 <div class="tech-stack">
-                    <span>Powered by:</span>
+                    <span>Made For Doadwi With:</span>
                     <div class="tech-icons">
                         <i class="fab fa-html5" title="HTML5"></i>
                         <i class="fab fa-css3-alt" title="CSS3"></i>
@@ -324,7 +332,7 @@
                     </div>
                 </div>
                 <div class="footer-text">
-                    Made with <i class="fas fa-heart heart-beat"></i> for the one who makes every moment special
+                    Made with <i class="fas fa-heart heart-beat"></i> for Doadwi who makes every moment special
                 </div>
                 <div class="footer-actions">
                     <button class="reset-btn" id="reset-btn">
@@ -343,6 +351,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
