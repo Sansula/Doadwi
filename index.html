@@ -4,16 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>❤️ For Doadwi | Ultimate Valentine Experience</title>
+    
+    <!-- External Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- Internal CSS -->
     <link rel="stylesheet" href="style.css">
+    
+    <!-- External Scripts (MUST BE IN HEAD) -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <!-- Background Particles -->
     <div id="particles-js"></div>
     
-    <!-- Audio Player -->
+    <!-- Audio & Theme Controls -->
     <div class="audio-player">
         <button id="music-toggle">
             <i class="fas fa-music"></i>
@@ -24,7 +32,6 @@
         </audio>
     </div>
 
-    <!-- Theme Toggle -->
     <div class="theme-switch">
         <button id="theme-toggle">
             <i class="fas fa-moon"></i>
@@ -34,7 +41,6 @@
 
     <!-- Main Container -->
     <div class="container">
-        <!-- Header with Logo -->
         <header class="header">
             <div class="logo">
                 <i class="fas fa-heartbeat"></i>
@@ -45,22 +51,18 @@
             </div>
         </header>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <!-- Animated Title -->
+            <!-- Title -->
             <div class="title-section">
                 <h1 class="animate__animated animate__pulse animate__infinite">
                     <span class="title-text">Doadwi, Will You Be My</span>
                     <span class="valentine-text">Valentine?</span>
                 </h1>
-                <div class="subtitle">
-                    <p>An Interactive Digital Proposal Made Just For You</p>
-                </div>
+                <p class="subtitle">An Interactive Digital Proposal</p>
             </div>
 
-            <!-- Interactive Heart Section -->
+            <!-- Interactive Heart -->
             <div class="heart-section">
-                <!-- 3D Heart Container -->
                 <div class="heart-3d" id="heart-3d">
                     <div class="heart-layer layer-1"></div>
                     <div class="heart-layer layer-2"></div>
@@ -70,7 +72,6 @@
                     </div>
                 </div>
                 
-                <!-- Heart Controls -->
                 <div class="heart-controls">
                     <button class="control-btn" id="heart-glow">
                         <i class="fas fa-magic"></i> Glow
@@ -84,10 +85,9 @@
                 </div>
             </div>
 
-            <!-- Decision Buttons with Effects -->
+            <!-- Decision Buttons -->
             <div class="decision-section">
                 <div class="buttons-container">
-                    <!-- YES Button with Confetti -->
                     <div class="button-wrapper yes-wrapper">
                         <button class="decision-btn yes-btn" id="yes-btn">
                             <div class="btn-content">
@@ -99,7 +99,6 @@
                         <div class="button-effect" id="yes-effect"></div>
                     </div>
 
-                    <!-- NO Button with Escape -->
                     <div class="button-wrapper no-wrapper">
                         <button class="decision-btn no-btn" id="no-btn">
                             <div class="btn-content">
@@ -115,7 +114,6 @@
                     </div>
                 </div>
 
-                <!-- Button Stats -->
                 <div class="button-stats">
                     <div class="stat">
                         <i class="fas fa-crosshairs"></i>
@@ -128,12 +126,10 @@
                 </div>
             </div>
 
-            <!-- Love Metrics Dashboard -->
+            <!-- Dashboard -->
             <div class="dashboard">
                 <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fas fa-heart"></i>
-                    </div>
+                    <div class="metric-icon"><i class="fas fa-heart"></i></div>
                     <div class="metric-info">
                         <h3>Love Counter</h3>
                         <div class="metric-value" id="love-counter">0</div>
@@ -145,9 +141,7 @@
                 </div>
 
                 <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
+                    <div class="metric-icon"><i class="fas fa-clock"></i></div>
                     <div class="metric-info">
                         <h3>Time Together</h3>
                         <div class="metric-timer" id="love-timer">00:00:00</div>
@@ -156,9 +150,7 @@
                 </div>
 
                 <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fas fa-fire"></i>
-                    </div>
+                    <div class="metric-icon"><i class="fas fa-fire"></i></div>
                     <div class="metric-info">
                         <h3>Romance Level</h3>
                         <div class="flame-container">
@@ -171,183 +163,163 @@
                 </div>
             </div>
 
-            <!-- Interactive Message Section -->
+            <!-- Message System -->
             <div class="message-section">
                 <div class="message-input">
-                    <input type="text" id="love-message" placeholder="Type your love message for Doadwi here...">
+                    <input type="text" id="love-message" placeholder="Type your love message for Doadwi...">
                     <button id="send-message">
                         <i class="fas fa-paper-plane"></i> Send
                     </button>
                 </div>
-                <div class="messages-container" id="messages-container">
-                    <!-- Messages will appear here -->
-                </div>
+                <div class="messages-container" id="messages-container"></div>
             </div>
 
-            <!-- ULTIMATE CELEBRATION SYSTEM -->
-            <div class="celebration-system" id="celebration-system">
-                <!-- Background Canvas for Effects -->
-                <canvas id="celebration-canvas"></canvas>
-                
-                <!-- Multiple Celebration Layers -->
-                <div class="celebration-layer layer-1"></div>
-                <div class="celebration-layer layer-2"></div>
-                <div class="celebration-layer layer-3"></div>
-                
-                <!-- Main Celebration Container -->
+            <!-- =========== ULTIMATE CELEBRATION SYSTEM =========== -->
+            <div class="celebration-overlay" id="celebration-overlay">
                 <div class="celebration-container">
-                    <!-- Stage 1: Initial Burst -->
-                    <div class="celebration-stage stage-1" id="stage-1">
-                        <div class="burst-circle">
-                            <div class="ring ring-1"></div>
-                            <div class="ring ring-2"></div>
-                            <div class="ring ring-3"></div>
-                            <div class="burst-center">
-                                <i class="fas fa-heart fa-beat"></i>
-                            </div>
-                        </div>
-                        <h2 class="celebration-title">DOADWI SAID YES!</h2>
-                        <p class="celebration-subtitle">Love Level: MAXIMUM</p>
-                    </div>
-                    
-                    <!-- Stage 2: Fireworks Show -->
-                    <div class="celebration-stage stage-2" id="stage-2" style="display: none;">
-                        <div class="fireworks-display">
-                            <div class="firework" id="fw-1"></div>
-                            <div class="firework" id="fw-2"></div>
-                            <div class="firework" id="fw-3"></div>
-                            <div class="firework" id="fw-4"></div>
-                        </div>
-                        <h2 class="celebration-title">FIREWORKS FOR DOADWI!</h2>
-                        <div class="firework-controls">
-                            <button class="fw-btn" data-type="heart">❤️ Hearts</button>
-                            <button class="fw-btn" data-type="star">⭐ Stars</button>
-                            <button class="fw-btn" data-type="spiral">🌀 Spirals</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Stage 3: Love Tunnel -->
-                    <div class="celebration-stage stage-3" id="stage-3" style="display: none;">
-                        <div class="tunnel-container">
-                            <div class="tunnel">
-                                <div class="tunnel-wall left"></div>
-                                <div class="tunnel-wall right"></div>
-                                <div class="tunnel-floor"></div>
-                                <div class="tunnel-lights"></div>
-                            </div>
-                            <div class="tunnel-vehicle">
+                    <!-- Stage 1: Burst -->
+                    <div class="celebration-stage active" id="stage-1">
+                        <div class="celebration-animation">
+                            <div class="burst-effect"></div>
+                            <div class="shockwave-ring"></div>
+                            <div class="shockwave-ring delay-1"></div>
+                            <div class="shockwave-ring delay-2"></div>
+                            <div class="celebration-heart">
                                 <i class="fas fa-heart"></i>
                             </div>
                         </div>
-                        <h2 class="celebration-title">LOVE TUNNEL FOR DOADWI!</h2>
+                        <h2 class="celebration-title">🎉 DOADWI SAID YES! 🎉</h2>
+                        <p class="celebration-message">Love Level: <span class="highlight">MAXIMUM</span></p>
                     </div>
-                    
-                    <!-- Stage 4: Final Display -->
-                    <div class="celebration-stage stage-4" id="stage-4" style="display: none;">
-                        <div class="final-display">
+
+                    <!-- Stage 2: Fireworks -->
+                    <div class="celebration-stage" id="stage-2">
+                        <div class="fireworks-container">
+                            <canvas id="fireworks-canvas"></canvas>
+                        </div>
+                        <h2 class="celebration-title">✨ FIREWORKS OF JOY! ✨</h2>
+                        <div class="firework-controls">
+                            <button class="firework-btn" data-type="heart">❤️ Hearts</button>
+                            <button class="firework-btn" data-type="star">⭐ Stars</button>
+                            <button class="firework-btn" data-type="spiral">🌀 Spirals</button>
+                        </div>
+                    </div>
+
+                    <!-- Stage 3: Confetti Storm -->
+                    <div class="celebration-stage" id="stage-3">
+                        <div class="confetti-container">
+                            <canvas id="confetti-canvas"></canvas>
+                        </div>
+                        <h2 class="celebration-title">🎊 CONFETTI STORM! 🎊</h2>
+                        <div class="confetti-controls">
+                            <button class="confetti-btn" data-color="rainbow">🌈 Rainbow</button>
+                            <button class="confetti-btn" data-color="love">💖 Love</button>
+                            <button class="confetti-btn" data-color="gold">⭐ Gold</button>
+                        </div>
+                    </div>
+
+                    <!-- Stage 4: Final Celebration -->
+                    <div class="celebration-stage" id="stage-4">
+                        <div class="final-celebration">
                             <div class="trophy">
                                 <i class="fas fa-trophy"></i>
                             </div>
-                            <div class="achievement-badges">
-                                <div class="badge" data-badge="soulmate">
+                            <div class="achievements">
+                                <div class="achievement">
                                     <i class="fas fa-heart-circle-check"></i>
-                                    <span>Soulmate Found: Doadwi</span>
+                                    <span>Soulmate Found</span>
                                 </div>
-                                <div class="badge" data-badge="forever">
+                                <div class="achievement">
                                     <i class="fas fa-infinity"></i>
                                     <span>Forever Love</span>
                                 </div>
-                                <div class="badge" data-badge="perfect">
+                                <div class="achievement">
                                     <i class="fas fa-gem"></i>
                                     <span>Perfect Match</span>
                                 </div>
                             </div>
-                            <div class="love-stats">
-                                <div class="stat">
-                                    <div class="stat-value" id="final-love">100%</div>
+                            <div class="celebration-stats">
+                                <div class="celebration-stat">
+                                    <div class="stat-value" id="celeb-love">100%</div>
                                     <div class="stat-label">Love Compatibility</div>
                                 </div>
-                                <div class="stat">
-                                    <div class="stat-value" id="final-time">∞</div>
-                                    <div class="stat-label">Time With Doadwi</div>
+                                <div class="celebration-stat">
+                                    <div class="stat-value" id="celeb-time">∞</div>
+                                    <div class="stat-label">Eternal Happiness</div>
                                 </div>
                             </div>
                         </div>
-                        <h2 class="celebration-title">CELEBRATION COMPLETE!</h2>
-                        <p class="celebration-message">You've unlocked eternal love with Doadwi! 💕</p>
+                        <h2 class="celebration-title">🏆 CELEBRATION COMPLETE! 🏆</h2>
+                        <p class="celebration-final">You've unlocked eternal love with Doadwi! 💕</p>
                     </div>
-                    
-                    <!-- Celebration Controls -->
-                    <div class="celebration-controls">
-                        <button class="celebration-btn" id="prev-stage">
+
+                    <!-- Controls -->
+                    <div class="celebration-navigation">
+                        <button class="nav-btn" id="prev-stage">
                             <i class="fas fa-arrow-left"></i> Previous
                         </button>
-                        <div class="stage-indicator">
+                        
+                        <div class="stage-indicators">
                             <span class="stage-dot active" data-stage="1"></span>
                             <span class="stage-dot" data-stage="2"></span>
                             <span class="stage-dot" data-stage="3"></span>
                             <span class="stage-dot" data-stage="4"></span>
                         </div>
-                        <button class="celebration-btn" id="next-stage">
+                        
+                        <button class="nav-btn" id="next-stage">
                             Next <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
-                    
-                    <!-- Special Effects Toggle -->
-                    <div class="effects-controls">
+
+                    <!-- Effect Controls -->
+                    <div class="effect-controls">
                         <button class="effect-btn" id="toggle-confetti">
-                            <i class="fas fa-birthday-cake"></i> Confetti Storm
+                            <i class="fas fa-birthday-cake"></i> Confetti
                         </button>
                         <button class="effect-btn" id="toggle-music">
-                            <i class="fas fa-music"></i> Party Music
+                            <i class="fas fa-music"></i> Music
                         </button>
-                        <button class="effect-btn" id="toggle-lasers">
-                            <i class="fas fa-bolt"></i> Laser Show
+                        <button class="effect-btn" id="toggle-sparkles">
+                            <i class="fas fa-sparkles"></i> Sparkles
                         </button>
                     </div>
-                    
-                    <!-- Share & Close -->
+
+                    <!-- Action Buttons -->
                     <div class="celebration-actions">
-                        <button class="action-btn share-action" id="celebration-share">
-                            <i class="fas fa-share-alt"></i> Share Victory
+                        <button class="action-btn share-btn" id="share-celebration">
+                            <i class="fas fa-share-alt"></i> Share with Doadwi
                         </button>
-                        <button class="action-btn close-action" id="close-celebration">
-                            <i class="fas fa-times"></i> Return to Love
+                        <button class="action-btn close-btn" id="close-celebration">
+                            <i class="fas fa-heart"></i> Continue Loving
                         </button>
                     </div>
                 </div>
             </div>
+            <!-- =========== END CELEBRATION SYSTEM =========== -->
         </main>
 
-        <!-- Footer -->
         <footer class="footer">
             <div class="footer-content">
                 <div class="tech-stack">
                     <span>Made For Doadwi With:</span>
                     <div class="tech-icons">
-                        <i class="fab fa-html5" title="HTML5"></i>
-                        <i class="fab fa-css3-alt" title="CSS3"></i>
-                        <i class="fab fa-js" title="JavaScript"></i>
-                        <i class="fas fa-heart" title="Love"></i>
+                        <i class="fab fa-html5"></i>
+                        <i class="fab fa-css3-alt"></i>
+                        <i class="fab fa-js"></i>
+                        <i class="fas fa-heart"></i>
                     </div>
                 </div>
                 <div class="footer-text">
-                    Made with <i class="fas fa-heart heart-beat"></i> for Doadwi who makes every moment special
+                    Made with <i class="fas fa-heart heart-beat"></i> for Doadwi
                 </div>
-                <div class="footer-actions">
-                    <button class="reset-btn" id="reset-btn">
-                        <i class="fas fa-redo"></i> Restart Experience
-                    </button>
-                </div>
+                <button class="reset-btn" id="reset-btn">
+                    <i class="fas fa-redo"></i> Restart Experience
+                </button>
             </div>
         </footer>
     </div>
 
-    <!-- External Libraries -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- Main Script -->
+    <!-- Internal Script -->
     <script src="script.js"></script>
 </body>
 </html>
