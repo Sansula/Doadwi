@@ -62,7 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
         reactionSpeed: document.getElementById('reaction-speed'),
         noText: document.getElementById('no-text'),
         
-       
+        // Audio
+        backgroundMusic: document.getElementById('background-music')
     };
 
     // State Variables
@@ -106,7 +107,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-   
+    // Initialize Audio
+    elements.backgroundMusic.volume = 0.3;
 
     // Event Listeners
     initializeEventListeners();
@@ -127,7 +129,8 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.noBtn.addEventListener('touchstart', handleNoButtonTouch);
         elements.noBtn.addEventListener('touchend', preventDefaultTouch);
 
-       
+        // Music Toggle
+        elements.musicToggle.addEventListener('click', toggleMusic);
 
         // Theme Toggle
         elements.themeToggle.addEventListener('click', toggleTheme);
@@ -221,96 +224,814 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
     }
 
+    // ====================
+    // ULTIMATE CELEBRATION SYSTEM
+    // ====================
+
+    class UltimateCelebration {
+        constructor() {
+            this.currentStage = 1;
+            this.totalStages = 4;
+            this.isActive = false;
+            this.effects = {
+                confetti: true,
+                music: true,
+                lasers: false
+            };
+            this.init();
+        }
+        
+        init() {
+            // Setup canvas
+            this.canvas = document.getElementById('celebration-canvas');
+            this.ctx = this.canvas.getContext('2d');
+            this.resizeCanvas();
+            
+            // Setup particles
+            this.particles = [];
+            this.confettiParticles = [];
+            this.laserParticles = [];
+            
+            // Setup audio
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            this.music = {
+                melody: null,
+                bass: null,
+                drums: null
+            };
+            
+            // Bind event listeners
+            this.bindEvents();
+            
+            // Start animation loop
+            this.animate();
+        }
+        
+        bindEvents() {
+            // Stage navigation
+            document.getElementById('next-stage').addEventListener('click', () => this.nextStage());
+            document.getElementById('prev-stage').addEventListener('click', () => this.prevStage());
+            
+            // Stage indicators
+            document.querySelectorAll('.stage-dot').forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    const stage = parseInt(e.target.dataset.stage);
+                    this.goToStage(stage);
+                });
+            });
+            
+            // Effect toggles
+            document.getElementById('toggle-confetti').addEventListener('click', () => this.toggleEffect('confetti'));
+            document.getElementById('toggle-music').addEventListener('click', () => this.toggleEffect('music'));
+            document.getElementById('toggle-lasers').addEventListener('click', () => this.toggleEffect('lasers'));
+            
+            // Firework controls
+            document.querySelectorAll('.fw-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const type = e.target.dataset.type;
+                    this.createFireworkShow(type);
+                });
+            });
+            
+            // Share and close
+            document.getElementById('celebration-share').addEventListener('click', () => this.shareCelebration());
+            document.getElementById('close-celebration').addEventListener('click', () => this.close());
+        }
+        
+        start() {
+            this.isActive = true;
+            this.currentStage = 1;
+            document.getElementById('celebration-system').style.display = 'block';
+            this.goToStage(1);
+            
+            // Initial effects
+            this.createInitialBurst();
+            this.startPartyMusic();
+            this.createConfettiStorm();
+            
+            // Start auto-advance
+            this.autoAdvance = setTimeout(() => this.nextStage(), 5000);
+        }
+        
+        goToStage(stage) {
+            if (stage < 1 || stage > this.totalStages) return;
+            
+            // Clear auto-advance
+            if (this.autoAdvance) {
+                clearTimeout(this.autoAdvance);
+                this.autoAdvance = null;
+            }
+            
+            // Hide all stages
+            for (let i = 1; i <= this.totalStages; i++) {
+                const stageEl = document.getElementById(`stage-${i}`);
+                const dot = document.querySelector(`.stage-dot[data-stage="${i}"]`);
+                
+                if (stageEl) stageEl.style.display = 'none';
+                if (dot) dot.classList.remove('active');
+            }
+            
+            // Show current stage
+            const currentStageEl = document.getElementById(`stage-${stage}`);
+            const currentDot = document.querySelector(`.stage-dot[data-stage="${stage}"]`);
+            
+            if (currentStageEl) {
+                currentStageEl.style.display = 'block';
+                currentStageEl.classList.add('active');
+            }
+            
+            if (currentDot) {
+                currentDot.classList.add('active');
+            }
+            
+            this.currentStage = stage;
+            
+            // Stage-specific effects
+            switch(stage) {
+                case 1:
+                    this.createInitialBurst();
+                    break;
+                case 2:
+                    this.createFireworkShow('heart');
+                    break;
+                case 3:
+                    this.startTunnelEffect();
+                    break;
+                case 4:
+                    this.showFinalStats();
+                    break;
+            }
+            
+            // Set auto-advance for next stage
+            if (stage < this.totalStages) {
+                this.autoAdvance = setTimeout(() => this.nextStage(), 8000);
+            }
+        }
+        
+        nextStage() {
+            if (this.currentStage < this.totalStages) {
+                this.goToStage(this.currentStage + 1);
+            }
+        }
+        
+        prevStage() {
+            if (this.currentStage > 1) {
+                this.goToStage(this.currentStage - 1);
+            }
+        }
+        
+        createInitialBurst() {
+            // Create shockwave particles
+            for (let i = 0; i < 200; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 2 + Math.random() * 4;
+                const particle = {
+                    x: this.canvas.width / 2,
+                    y: this.canvas.height / 2,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    size: 2 + Math.random() * 4,
+                    color: this.getRandomColor(),
+                    life: 100
+                };
+                this.particles.push(particle);
+            }
+            
+            // Play burst sound
+            this.playSound(523.25, 'sine', 0.5, 0.2);
+            setTimeout(() => this.playSound(659.25, 'sine', 0.5, 0.2), 100);
+            setTimeout(() => this.playSound(783.99, 'sine', 0.5, 0.2), 200);
+            setTimeout(() => this.playSound(1046.50, 'sine', 0.5, 0.2), 300);
+        }
+        
+        createFireworkShow(type = 'heart') {
+            // Clear existing fireworks
+            this.particles = this.particles.filter(p => p.type !== 'firework');
+            
+            // Create multiple fireworks
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    this.launchFirework(type);
+                }, i * 300);
+            }
+        }
+        
+        launchFirework(type) {
+            const x = 100 + Math.random() * (this.canvas.width - 200);
+            const y = this.canvas.height;
+            const targetY = 100 + Math.random() * (this.canvas.height / 2);
+            
+            // Create launch particle
+            const launchParticle = {
+                x: x,
+                y: y,
+                vx: (Math.random() - 0.5) * 2,
+                vy: -8 - Math.random() * 4,
+                size: 3,
+                color: this.getRandomColor(),
+                life: 60,
+                type: 'firework',
+                phase: 'launch',
+                targetY: targetY,
+                explosionType: type
+            };
+            
+            this.particles.push(launchParticle);
+            
+            // Play launch sound
+            this.playSound(880, 'square', 0.1, 0.1);
+        }
+        
+        explodeFirework(x, y, type) {
+            const particleCount = type === 'spiral' ? 300 : 150;
+            
+            for (let i = 0; i < particleCount; i++) {
+                let angle, speed, shape;
+                
+                switch(type) {
+                    case 'heart':
+                        angle = Math.random() * Math.PI * 2;
+                        speed = 1 + Math.random() * 3;
+                        shape = 'heart';
+                        break;
+                    case 'star':
+                        angle = (i / particleCount) * Math.PI * 2;
+                        speed = 2 + Math.random() * 2;
+                        shape = 'star';
+                        break;
+                    case 'spiral':
+                        angle = (i / particleCount) * Math.PI * 2;
+                        speed = 0.5 + (i % 10) * 0.2;
+                        shape = 'circle';
+                        break;
+                    default:
+                        angle = Math.random() * Math.PI * 2;
+                        speed = 1 + Math.random() * 3;
+                        shape = 'circle';
+                }
+                
+                const particle = {
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    size: type === 'star' ? 3 : 2 + Math.random() * 3,
+                    color: this.getRandomColor(),
+                    life: 100,
+                    type: 'firework',
+                    phase: 'explosion',
+                    shape: shape,
+                    rotation: Math.random() * Math.PI * 2,
+                    rotationSpeed: (Math.random() - 0.5) * 0.1
+                };
+                
+                this.particles.push(particle);
+            }
+            
+            // Play explosion sound
+            this.playSound(440, 'sawtooth', 0.2, 0.1);
+            this.playSound(554.37, 'sawtooth', 0.2, 0.1);
+            this.playSound(659.25, 'sawtooth', 0.2, 0.1);
+        }
+        
+        startTunnelEffect() {
+            // Create tunnel particles
+            for (let i = 0; i < 1000; i++) {
+                const z = Math.random() * 1000;
+                const angle = Math.random() * Math.PI * 2;
+                const radius = 50 + Math.random() * 100;
+                
+                const particle = {
+                    x: this.canvas.width / 2 + Math.cos(angle) * radius,
+                    y: this.canvas.height / 2 + Math.sin(angle) * radius,
+                    z: z,
+                    size: 1 + Math.random() * 3,
+                    color: this.getRandomColor(),
+                    speed: 5 + Math.random() * 10,
+                    type: 'tunnel'
+                };
+                
+                this.particles.push(particle);
+            }
+        }
+        
+        createConfettiStorm() {
+            if (!this.effects.confetti) return;
+            
+            // Create confetti particles
+            for (let i = 0; i < 500; i++) {
+                const confetti = {
+                    x: Math.random() * this.canvas.width,
+                    y: -20,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: 2 + Math.random() * 4,
+                    size: 5 + Math.random() * 10,
+                    color: this.getRandomColor(),
+                    life: 200 + Math.random() * 100,
+                    type: 'confetti',
+                    shape: Math.random() > 0.5 ? 'rect' : 'circle',
+                    rotation: Math.random() * Math.PI * 2,
+                    rotationSpeed: (Math.random() - 0.5) * 0.1,
+                    wobble: Math.random() * 2
+                };
+                
+                this.confettiParticles.push(confetti);
+            }
+        }
+        
+        showFinalStats() {
+            // Animate stats
+            this.animateCounter('final-love', 0, 100, 2000);
+            this.animateCounter('final-time', 0, 999, 1500);
+            
+            // Create trophy particles
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    this.createTrophyParticle();
+                }, i * 40);
+            }
+        }
+        
+        createTrophyParticle() {
+            const x = this.canvas.width / 2;
+            const y = this.canvas.height / 2;
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 1 + Math.random() * 3;
+            
+            const particle = {
+                x: x,
+                y: y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                size: 2 + Math.random() * 4,
+                color: '#FFD700',
+                life: 100,
+                type: 'trophy',
+                shape: 'star'
+            };
+            
+            this.particles.push(particle);
+        }
+        
+        animateCounter(elementId, start, end, duration) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            const startTime = Date.now();
+            const updateCounter = () => {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const value = Math.floor(start + (end - start) * easeOut);
+                
+                element.textContent = end === 100 ? `${value}%` : 
+                                    end === 999 ? `${value}+` : 
+                                    value.toString();
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                }
+            };
+            
+            updateCounter();
+        }
+        
+        startPartyMusic() {
+            if (!this.effects.music) return;
+            
+            // Create melody
+            const melodyNotes = [523.25, 587.33, 659.25, 698.46, 783.99, 880, 987.77, 1046.50];
+            let noteIndex = 0;
+            
+            this.music.melody = setInterval(() => {
+                this.playSound(melodyNotes[noteIndex], 'sine', 0.1, 0.3);
+                noteIndex = (noteIndex + 1) % melodyNotes.length;
+            }, 200);
+            
+            // Create bass line
+            const bassNotes = [130.81, 146.83, 164.81, 196.00];
+            let bassIndex = 0;
+            
+            this.music.bass = setInterval(() => {
+                this.playSound(bassNotes[bassIndex], 'sine', 0.05, 0.5);
+                bassIndex = (bassIndex + 1) % bassNotes.length;
+            }, 400);
+            
+            // Create drums
+            this.music.drums = setInterval(() => {
+                this.playSound(100, 'square', 0.05, 0.1);
+            }, 500);
+        }
+        
+        playSound(frequency, type = 'sine', duration = 0.5, volume = 0.1) {
+            try {
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+                
+                oscillator.frequency.value = frequency;
+                oscillator.type = type;
+                
+                const now = this.audioContext.currentTime;
+                gainNode.gain.setValueAtTime(volume, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration);
+                
+                oscillator.start(now);
+                oscillator.stop(now + duration);
+            } catch (e) {
+                console.log("Audio context not available");
+            }
+        }
+        
+        toggleEffect(effect) {
+            this.effects[effect] = !this.effects[effect];
+            
+            const button = document.getElementById(`toggle-${effect}`);
+            if (button) {
+                button.classList.toggle('active', this.effects[effect]);
+            }
+            
+            switch(effect) {
+                case 'music':
+                    if (this.effects.music) {
+                        this.startPartyMusic();
+                    } else {
+                        this.stopMusic();
+                    }
+                    break;
+                case 'confetti':
+                    if (this.effects.confetti) {
+                        this.createConfettiStorm();
+                    }
+                    break;
+                case 'lasers':
+                    if (this.effects.lasers) {
+                        this.startLaserShow();
+                    }
+                    break;
+            }
+        }
+        
+        stopMusic() {
+            if (this.music.melody) clearInterval(this.music.melody);
+            if (this.music.bass) clearInterval(this.music.bass);
+            if (this.music.drums) clearInterval(this.music.drums);
+        }
+        
+        startLaserShow() {
+            // Create laser beams
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    this.createLaserBeam();
+                }, i * 200);
+            }
+        }
+        
+        createLaserBeam() {
+            const startX = Math.random() * this.canvas.width;
+            const startY = 0;
+            const endX = Math.random() * this.canvas.width;
+            const endY = this.canvas.height;
+            
+            const laser = {
+                x1: startX,
+                y1: startY,
+                x2: endX,
+                y2: endY,
+                width: 3,
+                color: this.getRandomColor(),
+                life: 30,
+                type: 'laser'
+            };
+            
+            this.laserParticles.push(laser);
+            
+            // Create particles along laser
+            for (let i = 0; i < 20; i++) {
+                const t = i / 20;
+                const x = startX + (endX - startX) * t;
+                const y = startY + (endY - startY) * t;
+                
+                const particle = {
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 2,
+                    vy: (Math.random() - 0.5) * 2,
+                    size: 2 + Math.random() * 3,
+                    color: laser.color,
+                    life: 50,
+                    type: 'laser-particle'
+                };
+                
+                this.particles.push(particle);
+            }
+        }
+        
+        resizeCanvas() {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        }
+        
+        animate() {
+            requestAnimationFrame(() => this.animate());
+            
+            if (!this.isActive) return;
+            
+            // Clear canvas with fade effect
+            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            
+            // Update and draw particles
+            this.updateParticles();
+            this.drawParticles();
+            
+            // Update and draw confetti
+            this.updateConfetti();
+            this.drawConfetti();
+            
+            // Update and draw lasers
+            this.updateLasers();
+            this.drawLasers();
+        }
+        
+        updateParticles() {
+            for (let i = this.particles.length - 1; i >= 0; i--) {
+                const p = this.particles[i];
+                
+                // Update based on type
+                switch(p.type) {
+                    case 'firework':
+                        if (p.phase === 'launch') {
+                            p.x += p.vx;
+                            p.y += p.vy;
+                            p.life--;
+                            
+                            if (p.y <= p.targetY) {
+                                this.explodeFirework(p.x, p.y, p.explosionType);
+                                this.particles.splice(i, 1);
+                            }
+                        } else {
+                            p.x += p.vx;
+                            p.y += p.vy;
+                            p.vy += 0.05; // gravity
+                            p.life--;
+                            p.rotation += p.rotationSpeed || 0;
+                        }
+                        break;
+                        
+                    case 'tunnel':
+                        p.z -= p.speed;
+                        if (p.z < 0) {
+                            p.z = 1000;
+                            p.x = this.canvas.width / 2 + (Math.random() - 0.5) * 100;
+                            p.y = this.canvas.height / 2 + (Math.random() - 0.5) * 100;
+                        }
+                        break;
+                        
+                    default:
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.life--;
+                        if (p.rotationSpeed) p.rotation += p.rotationSpeed;
+                }
+                
+                // Remove dead particles
+                if (p.life <= 0 || 
+                    p.x < -100 || p.x > this.canvas.width + 100 ||
+                    p.y < -100 || p.y > this.canvas.height + 100) {
+                    this.particles.splice(i, 1);
+                }
+            }
+        }
+        
+        drawParticles() {
+            this.particles.forEach(p => {
+                this.ctx.save();
+                this.ctx.translate(p.x, p.y);
+                
+                if (p.rotation) {
+                    this.ctx.rotate(p.rotation);
+                }
+                
+                this.ctx.fillStyle = p.color;
+                this.ctx.globalAlpha = Math.min(p.life / 100, 1);
+                
+                switch(p.shape) {
+                    case 'heart':
+                        this.drawHeart(0, 0, p.size);
+                        break;
+                    case 'star':
+                        this.drawStar(0, 0, p.size);
+                        break;
+                    case 'rect':
+                        this.ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                        break;
+                    default:
+                        this.ctx.beginPath();
+                        this.ctx.arc(0, 0, p.size/2, 0, Math.PI * 2);
+                        this.ctx.fill();
+                }
+                
+                this.ctx.restore();
+            });
+        }
+        
+        drawHeart(x, y, size) {
+            this.ctx.beginPath();
+            const topCurveHeight = size * 0.3;
+            this.ctx.moveTo(x, y + topCurveHeight);
+            // top left curve
+            this.ctx.bezierCurveTo(
+                x, y, 
+                x - size/2, y, 
+                x - size/2, y + size/3
+            );
+            // bottom left curve
+            this.ctx.bezierCurveTo(
+                x - size/2, y + size * 0.7,
+                x, y + size,
+                x, y + size * 0.9
+            );
+            // bottom right curve
+            this.ctx.bezierCurveTo(
+                x, y + size,
+                x + size/2, y + size * 0.7,
+                x + size/2, y + size/3
+            );
+            // top right curve
+            this.ctx.bezierCurveTo(
+                x + size/2, y,
+                x, y,
+                x, y + topCurveHeight
+            );
+            this.ctx.closePath();
+            this.ctx.fill();
+        }
+        
+        drawStar(x, y, size) {
+            this.ctx.beginPath();
+            const spikes = 5;
+            const outerRadius = size/2;
+            const innerRadius = size/4;
+            
+            for (let i = 0; i < spikes * 2; i++) {
+                const radius = i % 2 === 0 ? outerRadius : innerRadius;
+                const angle = Math.PI / spikes * i;
+                const px = x + Math.cos(angle) * radius;
+                const py = y + Math.sin(angle) * radius;
+                
+                if (i === 0) {
+                    this.ctx.moveTo(px, py);
+                } else {
+                    this.ctx.lineTo(px, py);
+                }
+            }
+            
+            this.ctx.closePath();
+            this.ctx.fill();
+        }
+        
+        updateConfetti() {
+            for (let i = this.confettiParticles.length - 1; i >= 0; i--) {
+                const c = this.confettiParticles[i];
+                
+                c.x += c.vx;
+                c.y += c.vy;
+                c.vy += 0.05; // gravity
+                c.life--;
+                c.rotation += c.rotationSpeed;
+                c.x += Math.sin(c.life * 0.1) * c.wobble;
+                
+                if (c.life <= 0 || c.y > this.canvas.height + 50) {
+                    this.confettiParticles.splice(i, 1);
+                }
+            }
+        }
+        
+        drawConfetti() {
+            this.confettiParticles.forEach(c => {
+                this.ctx.save();
+                this.ctx.translate(c.x, c.y);
+                this.ctx.rotate(c.rotation);
+                this.ctx.fillStyle = c.color;
+                this.ctx.globalAlpha = Math.min(c.life / 100, 1);
+                
+                if (c.shape === 'rect') {
+                    this.ctx.fillRect(-c.size/2, -c.size/2, c.size, c.size);
+                } else {
+                    this.ctx.beginPath();
+                    this.ctx.arc(0, 0, c.size/2, 0, Math.PI * 2);
+                    this.ctx.fill();
+                }
+                
+                this.ctx.restore();
+            });
+        }
+        
+        updateLasers() {
+            for (let i = this.laserParticles.length - 1; i >= 0; i--) {
+                const l = this.laserParticles[i];
+                l.life--;
+                
+                if (l.life <= 0) {
+                    this.laserParticles.splice(i, 1);
+                }
+            }
+        }
+        
+        drawLasers() {
+            this.laserParticles.forEach(l => {
+                this.ctx.save();
+                this.ctx.strokeStyle = l.color;
+                this.ctx.lineWidth = l.width;
+                this.ctx.globalAlpha = l.life / 30;
+                this.ctx.beginPath();
+                this.ctx.moveTo(l.x1, l.y1);
+                this.ctx.lineTo(l.x2, l.y2);
+                this.ctx.stroke();
+                
+                // Add glow effect
+                this.ctx.shadowColor = l.color;
+                this.ctx.shadowBlur = 20;
+                this.ctx.stroke();
+                this.ctx.restore();
+            });
+        }
+        
+        getRandomColor() {
+            const colors = [
+                '#FF4081', '#E91E63', '#F50057', '#FF0066',
+                '#4CAF50', '#2E7D32', '#00C853', '#64DD17',
+                '#2196F3', '#1565C0', '#2979FF', '#2962FF',
+                '#FF9800', '#F57C00', '#FF9100', '#FF6D00',
+                '#9C27B0', '#7B1FA2', '#AA00FF', '#6200EA'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        shareCelebration() {
+            if (navigator.share) {
+                navigator.share({
+                    title: '🎉 Ultimate Celebration!',
+                    text: 'I just experienced the most amazing Valentine celebration! Check it out!',
+                    url: window.location.href
+                });
+            } else {
+                // Create celebration image
+                this.createCelebrationImage().then(imageUrl => {
+                    // For demo, just show alert
+                    alert('Celebration shared!\n\nLove Level: 100%\nAchievements: All Unlocked!\n\nShare the love! ❤️');
+                });
+            }
+        }
+        
+        async createCelebrationImage() {
+            // This would create a shareable image of the celebration
+            // For now, return a placeholder
+            return window.location.href;
+        }
+        
+        close() {
+            this.isActive = false;
+            this.stopMusic();
+            document.getElementById('celebration-system').style.display = 'none';
+            
+            // Clear all particles
+            this.particles = [];
+            this.confettiParticles = [];
+            this.laserParticles = [];
+            
+            // Clear intervals
+            if (this.autoAdvance) {
+                clearTimeout(this.autoAdvance);
+            }
+        }
+    }
+
+    // Initialize celebration system
+    let ultimateCelebration;
+
     function startCelebration() {
-        if (state.isCelebrating) return;
-        
-        state.isCelebrating = true;
-        state.loveLevel = 100;
-        updateLoveMeter();
-        
-        // Show celebration modal
-        elements.celebrationModal.style.display = 'flex';
-        
-        // Create confetti
-        createConfetti();
-        
-     
-        
-        // Trigger fireworks
-        createFireworks();
+        if (!ultimateCelebration) {
+            ultimateCelebration = new UltimateCelebration();
+        }
         
         // Update metrics
+        state.loveLevel = 100;
+        updateLoveMeter();
         elements.loveCounter.textContent = "∞";
         
         // Disable NO button
         elements.noBtn.disabled = true;
         elements.noBtn.style.opacity = '0.5';
         
+        // Start the ultimate celebration
+        ultimateCelebration.start();
+        
         // Add celebration message
-        addMessage("🎉 Yahooooooooooooooooo!", true);
-    }
-
-    function createConfetti() {
-        const confettiContainer = document.querySelector('.confetti-container');
-        const colors = ['#ff4081', '#e91e63', '#f50057', '#ff6b9d', '#ffffff'];
-        
-        for (let i = 0; i < 150; i++) {
-            const confetti = document.createElement('div');
-            confetti.style.position = 'absolute';
-            confetti.style.width = '10px';
-            confetti.style.height = '10px';
-            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.borderRadius = '50%';
-            confetti.style.left = `${Math.random() * 100}%`;
-            confetti.style.top = '-20px';
-            
-            confettiContainer.appendChild(confetti);
-            
-            // Animate confetti
-            confetti.animate([
-                { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
-                { transform: `translateY(${window.innerHeight + 100}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
-            ], {
-                duration: Math.random() * 3000 + 2000,
-                easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)',
-                delay: Math.random() * 1000
-            });
-            
-            // Remove after animation
-            setTimeout(() => confetti.remove(), 5000);
-        }
-    }
-
-    function createFireworks() {
-        const container = document.querySelector('.container');
-        
-        for (let i = 0; i < 10; i++) {
-            setTimeout(() => {
-                const firework = document.createElement('div');
-                firework.style.position = 'fixed';
-                firework.style.left = `${Math.random() * 100}%`;
-                firework.style.top = `${Math.random() * 100}%`;
-                firework.style.width = '5px';
-                firework.style.height = '5px';
-                firework.style.background = '#ff4081';
-                firework.style.borderRadius = '50%';
-                firework.style.zIndex = '9999';
-                firework.style.pointerEvents = 'none';
-                
-                document.body.appendChild(firework);
-                
-                // Animate firework explosion
-                firework.animate([
-                    { transform: 'scale(1)', opacity: 1 },
-                    { transform: 'scale(20)', opacity: 0 }
-                ], {
-                    duration: 1000,
-                    easing: 'ease-out'
-                });
-                
-                setTimeout(() => firework.remove(), 1000);
-            }, i * 300);
-        }
+        addMessage("🎉 ULTIMATE CELEBRATION ACTIVATED!", true);
     }
 
     function toggleMusic() {
@@ -528,32 +1249,6 @@ document.addEventListener('DOMContentLoaded', function() {
         loveGraph.update();
     }
 
-    function playCelebrationSound() {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
-        // Create celebration melody
-        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
-        
-        notes.forEach((frequency, index) => {
-            setTimeout(() => {
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.value = frequency;
-                oscillator.type = 'sine';
-                
-                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.5);
-            }, index * 200);
-        });
-    }
-
     function shareCelebration() {
         if (navigator.share) {
             navigator.share({
@@ -569,7 +1264,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function resetExperience() {
-        if (confirm("Are you sure you want to restart the experience? All progress will be lost.")) {
+        if (confirm("Are you sure you want to restart the experience?")) {
+            if (ultimateCelebration) {
+                ultimateCelebration.close();
+            }
+            
             // Reset state
             state.loveLevel = 0;
             state.escapeAttempts = 0;
@@ -602,6 +1301,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Add window resize and keyboard event listeners for celebration
+    window.addEventListener('resize', () => {
+        if (ultimateCelebration) {
+            ultimateCelebration.resizeCanvas();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!ultimateCelebration || !ultimateCelebration.isActive) return;
+        
+        switch(e.key) {
+            case 'ArrowRight':
+                ultimateCelebration.nextStage();
+                break;
+            case 'ArrowLeft':
+                ultimateCelebration.prevStage();
+                break;
+            case 'Escape':
+                ultimateCelebration.close();
+                break;
+            case ' ':
+                // Space bar triggers extra effects
+                if (ultimateCelebration.effects.confetti) {
+                    ultimateCelebration.createConfettiStorm();
+                }
+                break;
+        }
+    });
+
     // Add CSS for spin animation
     const style = document.createElement('style');
     style.textContent = `
@@ -623,4 +1351,3 @@ document.addEventListener('DOMContentLoaded', function() {
         addMessage("Click the heart, try to catch the NO button, and enjoy the magic!", false);
     }, 1000);
 });
-
