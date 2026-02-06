@@ -62,8 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
         reactionSpeed: document.getElementById('reaction-speed'),
         noText: document.getElementById('no-text'),
         
-        // Audio
-        backgroundMusic: document.getElementById('background-music')
+       
     };
 
     // State Variables
@@ -107,8 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Initialize Audio
-    elements.backgroundMusic.volume = 0.3;
+   
 
     // Event Listeners
     initializeEventListeners();
@@ -129,8 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.noBtn.addEventListener('touchstart', handleNoButtonTouch);
         elements.noBtn.addEventListener('touchend', preventDefaultTouch);
 
-        // Music Toggle
-        elements.musicToggle.addEventListener('click', toggleMusic);
+       
 
         // Theme Toggle
         elements.themeToggle.addEventListener('click', toggleTheme);
@@ -237,8 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Create confetti
         createConfetti();
         
-        // Play celebration sound
-        playCelebrationSound();
+     
         
         // Trigger fireworks
         createFireworks();
@@ -251,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.noBtn.style.opacity = '0.5';
         
         // Add celebration message
-        addMessage("🎉 Celebration Mode Activated! Infinite love unlocked!", true);
+        addMessage("🎉 Yahooooooooooooooooo!", true);
     }
 
     function createConfetti() {
@@ -627,3 +623,4 @@ document.addEventListener('DOMContentLoaded', function() {
         addMessage("Click the heart, try to catch the NO button, and enjoy the magic!", false);
     }, 1000);
 });
+
