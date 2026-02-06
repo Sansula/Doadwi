@@ -176,30 +176,139 @@
                 </div>
             </div>
 
-            <!-- Celebration Modal (Hidden by default) -->
-            <div class="celebration-modal" id="celebration-modal">
-                <div class="modal-content">
-                    <div class="confetti-container"></div>
-                    <h2>🎉 CELEBRATION TIME! 🎉</h2>
-                    <div class="celebration-heart">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <p class="celebration-text">You've made the best choice! Let the celebration begin!</p>
-                    <div class="celebration-stats">
-                        <div class="celebration-stat">
-                            <i class="fas fa-gift"></i>
-                            <span>Unlocked: <strong>Infinite Love</strong></span>
-                        </div>
-                        <div class="celebration-stat">
-                            <i class="fas fa-trophy"></i>
-                            <span>Achievement: <strong>Soulmate Found</strong></span>
-                        </div>
-                    </div>
-                    <button class="share-btn" id="share-btn">
-                        <i class="fas fa-share-alt"></i> Share This Moment
-                    </button>
+         <!-- ULTIMATE CELEBRATION SYSTEM -->
+<div class="celebration-system" id="celebration-system">
+    <!-- Background Canvas for Effects -->
+    <canvas id="celebration-canvas"></canvas>
+    
+    <!-- Multiple Celebration Layers -->
+    <div class="celebration-layer layer-1"></div>
+    <div class="celebration-layer layer-2"></div>
+    <div class="celebration-layer layer-3"></div>
+    
+    <!-- Main Celebration Container -->
+    <div class="celebration-container">
+        <!-- Stage 1: Initial Burst -->
+        <div class="celebration-stage stage-1" id="stage-1">
+            <div class="burst-circle">
+                <div class="ring ring-1"></div>
+                <div class="ring ring-2"></div>
+                <div class="ring ring-3"></div>
+                <div class="burst-center">
+                    <i class="fas fa-heart fa-beat"></i>
                 </div>
             </div>
+            <h2 class="celebration-title">YOU SAID YES!</h2>
+            <p class="celebration-subtitle">Love Level: MAXIMUM</p>
+        </div>
+        
+        <!-- Stage 2: Fireworks Show -->
+        <div class="celebration-stage stage-2" id="stage-2" style="display: none;">
+            <div class="fireworks-display">
+                <div class="firework" id="fw-1"></div>
+                <div class="firework" id="fw-2"></div>
+                <div class="firework" id="fw-3"></div>
+                <div class="firework" id="fw-4"></div>
+            </div>
+            <h2 class="celebration-title">FIREWORKS OF JOY!</h2>
+            <div class="firework-controls">
+                <button class="fw-btn" data-type="heart">❤️ Hearts</button>
+                <button class="fw-btn" data-type="star">⭐ Stars</button>
+                <button class="fw-btn" data-type="spiral">🌀 Spirals</button>
+            </div>
+        </div>
+        
+        <!-- Stage 3: Love Tunnel -->
+        <div class="celebration-stage stage-3" id="stage-3" style="display: none;">
+            <div class="tunnel-container">
+                <div class="tunnel">
+                    <div class="tunnel-wall left"></div>
+                    <div class="tunnel-wall right"></div>
+                    <div class="tunnel-floor"></div>
+                    <div class="tunnel-lights"></div>
+                </div>
+                <div class="tunnel-vehicle">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            <h2 class="celebration-title">LOVE TUNNEL ACTIVATED!</h2>
+        </div>
+        
+        <!-- Stage 4: Final Display -->
+        <div class="celebration-stage stage-4" id="stage-4" style="display: none;">
+            <div class="final-display">
+                <div class="trophy">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="achievement-badges">
+                    <div class="badge" data-badge="soulmate">
+                        <i class="fas fa-heart-circle-check"></i>
+                        <span>Soulmate Found</span>
+                    </div>
+                    <div class="badge" data-badge="forever">
+                        <i class="fas fa-infinity"></i>
+                        <span>Forever Love</span>
+                    </div>
+                    <div class="badge" data-badge="perfect">
+                        <i class="fas fa-gem"></i>
+                        <span>Perfect Match</span>
+                    </div>
+                </div>
+                <div class="love-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="final-love">100%</div>
+                        <div class="stat-label">Love Compatibility</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="final-time">∞</div>
+                        <div class="stat-label">Time Together</div>
+                    </div>
+                </div>
+            </div>
+            <h2 class="celebration-title">CELEBRATION COMPLETE!</h2>
+            <p class="celebration-message">You've unlocked eternal love! 💕</p>
+        </div>
+        
+        <!-- Celebration Controls -->
+        <div class="celebration-controls">
+            <button class="celebration-btn" id="prev-stage">
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <div class="stage-indicator">
+                <span class="stage-dot active" data-stage="1"></span>
+                <span class="stage-dot" data-stage="2"></span>
+                <span class="stage-dot" data-stage="3"></span>
+                <span class="stage-dot" data-stage="4"></span>
+            </div>
+            <button class="celebration-btn" id="next-stage">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        
+        <!-- Special Effects Toggle -->
+        <div class="effects-controls">
+            <button class="effect-btn" id="toggle-confetti">
+                <i class="fas fa-birthday-cake"></i> Confetti Storm
+            </button>
+            <button class="effect-btn" id="toggle-music">
+                <i class="fas fa-music"></i> Party Music
+            </button>
+            <button class="effect-btn" id="toggle-lasers">
+                <i class="fas fa-bolt"></i> Laser Show
+            </button>
+        </div>
+        
+        <!-- Share & Close -->
+        <div class="celebration-actions">
+            <button class="action-btn share-action" id="celebration-share">
+                <i class="fas fa-share-alt"></i> Share Victory
+            </button>
+            <button class="action-btn close-action" id="close-celebration">
+                <i class="fas fa-times"></i> Return to Love
+            </button>
+        </div>
+    </div>
+</div>
         </main>
 
         <!-- Footer -->
@@ -234,5 +343,6 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
