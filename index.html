@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Website</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>❤️ Will You Be My Valentine? ❤️</h1>
+        <div class="heart" id="animated-heart">
+            <i class="fas fa-heart"></i>
+        </div>
+        <div class="buttons">
+            <button id="yes-btn" onclick="acceptValentine()">YES! 💖</button>
+            <button id="no-btn" onmouseover="moveButton()">Maybe... 😅</button>
+        </div>
+        <div class="message" id="message"></div>
+        <div class="counter">
+            <p>Days since I started loving you: <span id="day-counter">0</span></p>
+        </div>
+    </div>
+    
+    <footer>
+        Made with ❤️ using HTML, CSS & JavaScript
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
