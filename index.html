@@ -3,33 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine Website</title>
+    <title>Be My Valentine?</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- FontAwesome for the Heart Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>❤️ Will You Be My Valentine? ❤️</h1>
-        <div class="heart" id="animated-heart">
-            <i class="fas fa-heart"></i>
+        <div class="heart-container">
+            <i class="fas fa-heart fa-5x heart-icon"></i>
         </div>
+        
+        <h1 id="main-message">Will you be my Valentine?</h1>
+        <p id="timer">Falling in love for: <span id="days-count">0</span> days</p>
+
         <div class="buttons">
-            <button id="yes-btn">YES! 💖</button>
-            <button id="no-btn">Maybe... 😅</button>
-        </div>
-        <div class="message" id="message"></div>
-        <div class="counter">
-            <p>Days since I started loving you: <span id="day-counter">0</span></p>
-        </div>
-        <div class="instructions">
-            <p><i class="fas fa-mobile-alt"></i> Tap the heart for a surprise!</p>
+            <button id="yes-btn">YES</button>
+            <button id="no-btn">NO</button>
         </div>
     </div>
-    
-    <footer>
-        Made with ❤️ for one and only Doadwi
-    </footer>
-    
+
     <script src="script.js"></script>
 </body>
 </html>
