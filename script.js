@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
         heart3d: document.getElementById('heart-3d'),
         loveMessage: document.getElementById('love-message'),
         messagesContainer: document.getElementById('messages-container'),
-        celebrationModal: document.getElementById('celebration-modal'),
         
         // Metrics
         loveMeter: document.getElementById('love-meter'),
@@ -185,13 +184,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Change button text
         const texts = [
-            "Nice try! 😏", 
+            "Nice try, Doadwi! 😏", 
             "Too slow! 🏃‍♂️", 
-            "Catch me if you can!", 
+            "Catch me if you can, Doadwi!", 
             "Not today! 😄",
             "I'm too fast! ⚡",
             "You'll need luck! 🍀",
-            "Try harder! 💪",
+            "Try harder, Doadwi! 💪",
             "Almost got me! 😅"
         ];
         elements.noText.textContent = texts[Math.floor(Math.random() * texts.length)];
@@ -974,23 +973,13 @@ document.addEventListener('DOMContentLoaded', function() {
         shareCelebration() {
             if (navigator.share) {
                 navigator.share({
-                    title: '🎉 Ultimate Celebration!',
-                    text: 'I just experienced the most amazing Valentine celebration! Check it out!',
+                    title: '🎉 Doadwi Said YES! Ultimate Celebration!',
+                    text: 'Doadwi just said YES to the most amazing Valentine celebration! Check it out!',
                     url: window.location.href
                 });
             } else {
-                // Create celebration image
-                this.createCelebrationImage().then(imageUrl => {
-                    // For demo, just show alert
-                    alert('Celebration shared!\n\nLove Level: 100%\nAchievements: All Unlocked!\n\nShare the love! ❤️');
-                });
+                alert('Celebration shared!\n\nDoadwi\'s Love Level: 100%\nAchievements: All Unlocked!\n\nShare the love! ❤️');
             }
-        }
-        
-        async createCelebrationImage() {
-            // This would create a shareable image of the celebration
-            // For now, return a placeholder
-            return window.location.href;
         }
         
         close() {
@@ -1031,7 +1020,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ultimateCelebration.start();
         
         // Add celebration message
-        addMessage("🎉 ULTIMATE CELEBRATION ACTIVATED!", true);
+        addMessage("🎉 ULTIMATE CELEBRATION ACTIVATED! DOADWI SAID YES!", true);
     }
 
     function toggleMusic() {
@@ -1132,7 +1121,7 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.loveCounter.textContent = currentCount + 1;
         
         // Add message
-        addMessage("❤️ Heart clicked! Love level increased!", false);
+        addMessage("❤️ Heart clicked! Love for Doadwi increased!", false);
     }
 
     function createMiniHeart() {
@@ -1163,17 +1152,20 @@ document.addEventListener('DOMContentLoaded', function() {
     function sendLoveMessage() {
         const message = elements.loveMessage.value.trim();
         if (message) {
-            addMessage(message, true);
+            addMessage(`You: ${message}`, true);
             elements.loveMessage.value = '';
             
             // Add auto-response
             setTimeout(() => {
                 const responses = [
-                    "That's so sweet! ❤️",
-                    "You make my heart flutter! 🦋",
-                    "I feel the same way! 💕",
-                    "You're amazing! ✨",
-                    "My heart is smiling! 😊"
+                    "Doadwi: That's so sweet! ❤️",
+                    "Doadwi: You make my heart flutter! 🦋",
+                    "Doadwi: I feel the same way! 💕",
+                    "Doadwi: You're amazing! ✨",
+                    "Doadwi: My heart is smiling! 😊",
+                    "Doadwi: This is so romantic! 🌹",
+                    "Doadwi: I'm blushing! 😳",
+                    "Doadwi: You're the best! 🥰"
                 ];
                 const response = responses[Math.floor(Math.random() * responses.length)];
                 addMessage(response, false);
@@ -1252,19 +1244,18 @@ document.addEventListener('DOMContentLoaded', function() {
     function shareCelebration() {
         if (navigator.share) {
             navigator.share({
-                title: 'I Said YES to Love! ❤️',
-                text: 'Check out this amazing interactive Valentine website I just experienced!',
+                title: 'For Doadwi: I Said YES to Love! ❤️',
+                text: 'Check out this amazing interactive Valentine website made for Doadwi!',
                 url: window.location.href
             });
         } else {
-            // Fallback: Copy to clipboard
-            navigator.clipboard.writeText(`${window.location.href}\n\nI said YES to love! ❤️ Check out this amazing Valentine website!`);
-            alert('Link copied to clipboard! Share it with your loved ones! 💕');
+            navigator.clipboard.writeText(`${window.location.href}\n\nMade for Doadwi: I said YES to love! ❤️ Check out this amazing Valentine website!`);
+            alert('Link copied to clipboard! Share it with Doadwi! 💕');
         }
     }
 
     function resetExperience() {
-        if (confirm("Are you sure you want to restart the experience?")) {
+        if (confirm("Are you sure you want to restart the experience for Doadwi?")) {
             if (ultimateCelebration) {
                 ultimateCelebration.close();
             }
@@ -1278,7 +1269,6 @@ document.addEventListener('DOMContentLoaded', function() {
             state.messages = [];
             
             // Reset UI
-            elements.celebrationModal.style.display = 'none';
             elements.loveCounter.textContent = '0';
             elements.escapeCount.textContent = '0';
             elements.reactionSpeed.textContent = '0ms';
@@ -1297,7 +1287,7 @@ document.addEventListener('DOMContentLoaded', function() {
             loveGraph.update();
             
             // Add reset message
-            addMessage("🔄 Experience has been reset! Let's create new memories!", false);
+            addMessage("🔄 Experience has been reset! Let's create new memories with Doadwi!", false);
         }
     }
 
@@ -1347,7 +1337,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize with welcome message
     setTimeout(() => {
-        addMessage("Welcome to your personalized Valentine experience! ❤️", false);
-        addMessage("Click the heart, try to catch the NO button, and enjoy the magic!", false);
+        addMessage("Welcome to your personalized Valentine experience for Doadwi! ❤️", false);
+        addMessage("Click the heart, try to catch the NO button, and enjoy the magic made for Doadwi!", false);
     }, 1000);
 });
